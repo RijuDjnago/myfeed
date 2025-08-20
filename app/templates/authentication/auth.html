@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block title %}Login or Sign Up{% endblock %}
+{% block content %}
+<div class="auth-container">
+    <!-- Login Form -->
+    <div class="auth-card" id="login-form">
+        <img src="https://picsum.photos/100/100?random=1" alt="Login Icon">
+        <h2>Login</h2>
+        {% if login_form.errors %}
+            <ul class="errorlist">
+                {% for field in login_form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in login_form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form method="post" action="{% url 'auth' %}">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="login">
+            <div class="mb-3">
+                <label for="{{ login_form.username.id_for_label }}" class="form-label">Username</label>
+                {{ login_form.username }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ login_form.password.id_for_label }}" class="form-label">Password</label>
+                {{ login_form.password }}
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+        <div class="auth-link">
+            <p>Create a new account? <a onclick="toggleForm('signup')">Sign Up</a></p>
+        </div>
+    </div>
+
+    <!-- Sign Up Form -->
+    <div class="auth-card form-hidden" id="signup-form">
+        <img src="https://picsum.photos/100/100?random=2" alt="Sign Up Icon">
+        <h2>Sign Up</h2>
+        {% if signup_form.errors %}
+            <ul class="errorlist">
+                {% for field in signup_form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in signup_form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form method="post" action="{% url 'auth' %}">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="signup">
+            <div class="mb-3">
+                <label for="{{ signup_form.username.id_for_label }}" class="form-label">Username</label>
+                {{ signup_form.username }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ signup_form.email.id_for_label }}" class="form-label">Email</label>
+                {{ signup_form.email }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ signup_form.password1.id_for_label }}" class="form-label">Password</label>
+                {{ signup_form.password1 }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ signup_form.password2.id_for_label }}" class="form-label">Confirm Password</label>
+                {{ signup_form.password2 }}
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+        </form>
+        <div class="auth-link">
+            <p>Already have an account? <a onclick="toggleForm('login')">Login</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function toggleForm(formType) {
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        if (formType === 'login') {
+            loginForm.classList.remove('form-hidden');
+            signupForm.classList.add('form-hidden');
+        } else {
+            loginForm.classList.add('form-hidden');
+            signupForm.classList.remove('form-hidden');
+        }
+    }
+</script>
+{% endblock %}
