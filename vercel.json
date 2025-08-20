@@ -13,7 +13,7 @@
     { "source": "/favicon.ico", "destination": "/favicon.ico" },
     { "source": "/robots.txt", "destination": "/robots.txt" },
     { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
-    { "source": "/(.*)", "destination": "/api/index.py" }
+    { "source": "/(.*)", "destination": "/lookatme/wsgi.py" }
   ],
   "functions": {
     "api/index.py": {
