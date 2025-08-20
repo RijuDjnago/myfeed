@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MyApp{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    {% block extra_css %}
+    {% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">MyApp</a>
+            <div class="d-md-none dropdown">
+                <button class="btn btn-outline-primary" type="button" id="mobileAuthDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi {% if user.is_authenticated %}bi-person-circle{% else %}bi-box-arrow-in-right{% endif %}"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="mobileAuthDropdown">
+                    {% if user.is_authenticated %}
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    {% else %}
+                        <li><a class="dropdown-item" href="{% url 'auth' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse justify-content-end d-none d-md-flex" id="navbarNav">
+                {% if user.is_authenticated %}
+                    <div class="navbar-nav desktop-tabs">
+                        <a class="nav-link" href="/"><i class="bi bi-house"></i> Home</a>
+                        <a class="nav-link" href="#"><i class="bi bi-info-circle"></i> About</a>
+                        <a class="nav-link" href="#"><i class="bi bi-gear"></i> Services</a>
+                        <a class="nav-link" href="#"><i class="bi bi-envelope"></i> Contact</a>
+                    </div>
+                {% endif %}
+                <div class="navbar-nav">
+                    <!-- Conditional Login/Signup or Profile -->
+                    <div id="auth-section" class="ms-3">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'profile' %}" class="btn btn-outline-primary"><i class="bi bi-person-circle"></i> Profile</a>
+                        {% else %}
+                            <a href="{% url 'auth' %}" class="btn btn-outline-primary me-2">Login</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid pt-3">
+        <div class="row">
+            <div class="col-12">
+                {% block content %}
+                    
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Footer Tabs -->
+    {% if user.is_authenticated %}
+        <footer class="mobile-footer d-md-none">
+            <a class="nav-link" href="/"><i class="bi bi-house"></i> Home</a>
+            <a class="nav-link" href="#"><i class="bi bi-info-circle"></i> About</a>
+            <a class="nav-link" href="#"><i class="bi bi-gear"></i> Services</a>
+            <a class="nav-link" href="#"><i class="bi bi-envelope"></i> Contact</a>
+        </footer>
+    {% endif %}
+    <!-- Desktop Footer -->
+    <footer class="desktop-footer bg-light text-center py-3 d-none d-md-block">
+        <p>&copy; {% now "Y" %} MyApp. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}
+    {% endblock %}
+</body>
+</html>

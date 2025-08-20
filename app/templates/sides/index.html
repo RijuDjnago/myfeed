@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+<div class="friend-suggestions">
+    <h3>Suggested Friends</h3>
+    {% for user in suggested_users %}
+    <div class="friend-card">
+        <img src="https://picsum.photos/80/80?random={{ forloop.counter }}" alt="{{ user.name }}">
+        <p>{{ user.name }}</p>
+        <button class="btn btn-primary btn-sm">Add Friend</button>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="feed">
+    {% for post in posts %}
+    <div class="post-card">
+        <div class="post-container">
+            <div class="post-content">
+                <div class="post-header">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmRLRMXynnc7D6-xfdpeaoEUeon2FaU0XtPg&s" alt="{{ post.author }}">
+                    <div>
+                        <strong>{{ post.author }}</strong>
+                        <small class="text-muted">{{ post.created_at }}</small>
+                    </div>
+                </div>
+                {% if post.images %}
+                <div class="post-images">
+                    <div id="carousel-{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for image in post.images %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ image }}" class="d-block w-100" alt="Post image">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% if post.images|length > 1 %}
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ forloop.counter }}" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ forloop.counter }}" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                <p>{{ post.content }}</p>
+                <div class="post-actions">
+                    <button class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-heart"></i> Like
+                    </button>
+                    <button class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-chat"></i> Comment
+                    </button>
+                    <button class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-share"></i> Share
+                    </button>
+                </div>
+            </div>
+            <div class="comment-section">
+                <h5>Comments</h5>
+                {% for comment in post.comments %}
+                <div class="comment d-flex">
+                    <img src="https://picsum.photos/30/30?random={{ forloop.parentloop.counter }}{{ forloop.counter }}" alt="{{ comment.author }}">
+                    <div>
+                        <strong>{{ comment.author }}</strong>
+                        <p>{{ comment.text }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No comments yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Placeholder for dynamic functionality (e.g., like, comment, share)
+    document.querySelectorAll('.post-actions .btn').forEach(button => {
+        button.addEventListener('click', () => {
+            alert('Action clicked: ' + button.textContent.trim());
+        });
+    });
+</script>
+{% endblock %}

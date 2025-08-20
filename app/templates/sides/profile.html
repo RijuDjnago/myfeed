@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="container my-4">
+    <!-- Hero Cover Image and Profile Section -->
+    <div class="hero-section">
+        <div class="hero-overlay">
+            {% if user.profile.profile_image %}
+                <img src="{{ user.profile.profile_image.url }}" class="profile-img" alt="{{ user.username }}'s Profile">
+            {% else %}
+                <img src="https://picsum.photos/160/160?random=1" class="profile-img" alt="Default Profile">
+            {% endif %}
+            <div class="profile-info">
+                <h1>{{ user.username }}</h1>
+                <p>{{ user.profile.bio|default:"No bio provided" }}</p>
+                <div class="info-grid">
+                    <div class="info-item"><strong>Gender:</strong> {{ user.profile.get_gender_display|default:"Not specified" }}</div>
+                    <div class="info-item"><strong>Date of Birth:</strong> {{ user.profile.dob|date:"F d, Y"|default:"Not specified" }}</div>
+                </div>
+                <i class="bi bi-pencil-square edit-icon" onclick="toggleEditForm()"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Form -->
+    <div class="edit-form form-hidden" id="edit-form">
+        {% if form.errors %}
+            <ul class="errorlist">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form method="post" action="{% url 'profile' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="{{ form.gender.id_for_label }}" class="form-label">Gender</label>
+                {{ form.gender }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.bio.id_for_label }}" class="form-label">Bio</label>
+                {{ form.bio }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.profile_image.id_for_label }}" class="form-label">Profile Image</label>
+                {{ form.profile_image }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.dob.id_for_label }}" class="form-label">Date of Birth</label>
+                {{ form.dob }}
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+            <button type="button" class="btn btn-secondary w-100 mt-2" onclick="toggleEditForm()">Cancel</button>
+        </form>
+    </div>
+
+    <!-- Feeds Section -->
+    <div class="section-card">
+        <h3 class="section-title text-center">Feeds</h3>
+        {% for post in posts %}
+        <div class="feed-item">
+            <div class="post-container">
+                <div class="post-content">
+                    <h5 class="mb-1">{{ post.title }}</h5>
+                    <p class="text-muted mb-2">Posted on {{ post.created_at }}</p>
+                    <p>{{ post.content }}</p>
+                    {% if post.images %}
+                        {% for image in post.images %}
+                            <img src="{{ image }}" class="img-fluid rounded" alt="Feed Image">
+                        {% endfor %}
+                    {% endif %}
+                    <div class="post-actions">
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-heart"></i> Like
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-chat"></i> Comment
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-share"></i> Share
+                        </button>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <h5>Comments</h5>
+                    {% for comment in post.comments %}
+                    <div class="comment">
+                        <img src="https://picsum.photos/30/30?random={{ forloop.parentloop.counter }}{{ forloop.counter }}" alt="{{ comment.author }}">
+                        <div>
+                            <strong>{{ comment.author }}</strong>
+                            <p>{{ comment.text }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>No comments yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No posts yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function toggleEditForm() {
+        const editForm = document.getElementById('edit-form');
+        editForm.classList.toggle('form-hidden');
+    }
+
+    // Placeholder for post actions
+    document.querySelectorAll('.post-actions .btn').forEach(button => {
+        button.addEventListener('click', () => {
+            alert('Action clicked: ' + button.textContent.trim());
+        });
+    });
+</script>
+{% endblock %}
