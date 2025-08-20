@@ -1,0 +1,296 @@
+body {
+    padding-top: 70px; /* Space for fixed navbar */
+    padding-bottom: 60px; /* Space for mobile or desktop footer */
+    min-height: 100vh; /* Ensure body takes full viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto; /* Main content grows to fill space */
+}
+
+.nav-link {
+    color: #333;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: #007bff;
+}
+
+/* Mobile Footer Tabs */
+.mobile-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    z-index: 1000;
+}
+
+.mobile-footer .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.mobile-footer .nav-link i {
+    font-size: 1.2rem;
+}
+
+/* Desktop Footer */
+.desktop-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    z-index: 1000;
+}
+
+/* Hide mobile footer on desktop */
+@media (min-width: 768px) {
+    .mobile-footer {
+        display: none;
+    }
+}
+
+/* Hide header tabs on mobile */
+@media (max-width: 767.98px) {
+    .desktop-tabs {
+        display: none; /* Hide header tabs on mobile */
+    }
+}
+
+/* Show header tabs on desktop */
+@media (min-width: 768px) {
+    .desktop-tabs {
+        display: flex;
+    }
+}
+
+.auth-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.auth-card {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.auth-card:hover {
+    transform: translateY(-5px);
+}
+
+.auth-card img {
+    width: 100%;
+    max-width: 100px;
+    margin: 0 auto 1rem;
+    display: block;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+}
+
+.auth-card h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #333;
+}
+
+.auth-card .form-control {
+    margin-bottom: 1.2rem;
+    border-radius: 0.4rem;
+}
+
+.auth-card .btn-primary {
+    border-radius: 0.4rem;
+    padding: 0.6rem;
+    font-weight: 500;
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+
+.auth-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+
+.errorlist {
+    color: #dc3545;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.form-hidden {
+    display: none;
+}
+
+
+.friend-suggestions {
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 1rem 0;
+}
+
+.friend-card {
+    display: inline-block;
+    width: 120px;
+    text-align: center;
+    margin-right: 1rem;
+    white-space: normal;
+}
+
+.friend-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+}
+
+.friend-card p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.friend-card .btn {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+}
+
+/* Social Media Feed */
+.post-card {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: #fff;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.post-header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.post-images {
+    margin-bottom: 1rem;
+}
+
+.post-images .carousel-item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+.post-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.post-actions .btn {
+    font-size: 0.9rem;
+}
+
+/* Comment Section */
+.comment-section {
+    margin-top: 1rem;
+}
+
+.comment {
+    border-top: 1px solid #eee;
+    padding: 0.5rem 0;
+}
+
+.comment img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+/* Desktop: Comments on right */
+@media (min-width: 768px) {
+    .post-container {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .post-content {
+        flex: 2;
+    }
+
+    .comment-section {
+        flex: 1;
+        border-left: 1px solid #dee2e6;
+        padding-left: 1rem;
+    }
+}
+
+/* Mobile: Comments below post */
+@media (max-width: 767.98px) {
+    .post-container {
+        display: block;
+    }
+
+    .comment-section {
+        border-top: 1px solid #dee2e6;
+        padding-top: 1rem;
+    }
+}
+
+/* Scrollbar Styling */
+.friend-suggestions::-webkit-scrollbar {
+    height: 8px;
+}
+
+.friend-suggestions::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.friend-suggestions::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.friend-suggestions::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
